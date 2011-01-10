@@ -128,12 +128,12 @@ If file is a directory or no application is associated with file, then
     (interactive "fFile: ")
     (if (file-directory-p file)
         (cygstart file)
-      (shell-command
-       (format "'%s' '%s' /e,/select,\"$('%s' '%s')\""
-               cygstart-program-name
-               cygstart-explorer-name
-               cygstart-cygpath-name
-               file))))
+      (let ((cmd (format "'%s' '%s' /e,/select,\"$('%s' -w '%s')\""
+                         cygstart-program-name
+                         cygstart-explorer-name
+                         cygstart-cygpath-name
+                         file)))
+        (shell-command cmd))))
 
   (defun dired-cygstart-explore ()   
     "Open Windows Explorer to current file or folder."
